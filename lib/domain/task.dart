@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'task.g.dart';
 @JsonSerializable()
 class Task {
-  final int id;
+  final String id;
   final String title;
   final bool completed;
 

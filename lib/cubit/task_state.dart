@@ -19,6 +19,12 @@ class TaskStateLoaded extends TaskState {
     uncompleted = allTasks.where((task) => !task.completed).toList();
   }
 
+  List<Task> getViewList() => switch (filterBy) {
+        FilterBy.completed => completed,
+        FilterBy.uncompleted => uncompleted,
+        FilterBy.all => allTasks,
+      };
+
   TaskStateLoaded copyWith({
     List<Task>? allTasks,
     FilterBy? filterBy,

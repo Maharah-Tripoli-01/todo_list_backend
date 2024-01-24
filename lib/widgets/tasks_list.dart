@@ -17,15 +17,11 @@ class TasksList extends StatelessWidget {
   Widget build(BuildContext context) {
     final filterBy = loadedState.filterBy;
 
-    final theList = switch (filterBy) {
-      FilterBy.completed => loadedState.completed,
-      FilterBy.uncompleted => loadedState.uncompleted,
-      FilterBy.all => loadedState.allTasks,
-    };
+    final theList = loadedState.getViewList();
 
     return Column(
       children: [
-        CupertinoSegmentedControl(
+        CupertinoSegmentedControl<FilterBy>(
           groupValue: filterBy,
           children: const {
             FilterBy.all: Text('All'),

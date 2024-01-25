@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:todo_list_backend/domain/task.dart';
 
 abstract class FirebaseDataSource {
   static FirebaseFirestore db = FirebaseFirestore.instance;
@@ -9,5 +8,22 @@ abstract class FirebaseDataSource {
         db.collection('tasks').snapshots();
 
     return stream;
+  }
+
+  /// task map should not contain the id
+  static Future<void> updateTask(
+    String taskId,
+    Map<String, dynamic> taskMap,
+  ) {
+    return db.collection('tasks').doc(taskId).update(taskMap);
+  }
+
+  static Future<void> addTask(
+    String title,
+  ) {
+    return db.collection('tasks').add({
+      'title': title,
+      'completed': false,
+    });
   }
 }

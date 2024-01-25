@@ -1,52 +1,32 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_list_backend/cubit/task_cubit.dart';
-import 'package:todo_list_backend/cubit/task_state.dart';
+import 'package:todo_list_backend/app_router.dart';
 import 'package:todo_list_backend/firebase_options.dart';
-import 'package:todo_list_backend/widgets/tasks_list.dart';
+import 'package:todo_list_backend/home/cubit/task_cubit.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
     BlocProvider<TaskCubit>(
       create: (BuildContext context) => TaskCubit(),
-      child: const MainApp(),
+      child:  App(),
     ),
   );
 }
 
-class MainApp extends StatefulWidget {
-  const MainApp({super.key});
+class App extends StatelessWidget {
+  App({super.key});
 
-  @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<TaskCubit>().state;
-
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: switch (state) {
-            TaskStateLoaded() => TasksList(loadedState: state),
-            TaskStateLoading() => const CircularProgressIndicator(),
-            TaskStateError(error: final error) => Text(error.toString()),
-          },
-        ),
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: _appRouter.config(),
     );
   }
 }

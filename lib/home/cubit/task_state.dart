@@ -1,4 +1,5 @@
-import 'package:todo_list_backend/domain/task.dart';
+
+import 'package:todo_list_backend/home/domain/task.dart';
 
 sealed class TaskState {}
 
